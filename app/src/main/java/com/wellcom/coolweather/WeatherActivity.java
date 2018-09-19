@@ -1,5 +1,6 @@
 package com.wellcom.coolweather;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.tv.TvContentRating;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.wellcom.coolweather.gson.Forecast;
 import com.wellcom.coolweather.gson.Weather;
+import com.wellcom.coolweather.service.AutoUpdateService;
 import com.wellcom.coolweather.util.HttpUtil;
 import com.wellcom.coolweather.util.Utility;
 
@@ -148,6 +150,7 @@ public class WeatherActivity extends AppCompatActivity {
                             editor.putString("weather", responseText);
                             editor.apply();
                             showWeatherInfo(weather);
+
                         } else {
                             Toast.makeText(WeatherActivity.this, "获取天气信息失败", Toast.LENGTH_SHORT).show();
                         }
@@ -192,6 +195,8 @@ public class WeatherActivity extends AppCompatActivity {
         weatherLayout.setVisibility(View.VISIBLE);
 
         loadBingPic();
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
     }
     private void loadBingPic() {
         String requestBingPic = "http://guolin.tech/api/bing_pic";
